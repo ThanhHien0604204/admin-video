@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <style>
+    .init-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      gap: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="init-screen">
+    <div class="loading-spinner"></div>
+    <p class="text-muted">Đang kiểm tra phiên đăng nhập...</p>
+  </div>
+
+  <script type="module">
+    import { supabase } from './assets/js/supabaseClient.js';
+
+    async function checkAuthAndRedirect() {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) {
+          location.replace('login.html');
+          return;
+        }
+
+        const { data: profile, error } = await supabase
+          .from('users')
+          .select('role, is_active')
+          .eq('id', session.user.id)
+          .single();
+
+        if (error || !profile || profile.role !== 'ADMIN' || !profile.is_active) {
+          await supabase.auth.signOut();
+          location.replace('login.html?error=forbidden');
+          return;
+        }
+
+        location.replace('dashboard.html');
+      } catch (err) {
+        console.error('Lỗi chuyển hướng index:', err);
+        location.replace('login.html');
+      }
+    }
+
+    checkAuthAndRedirect();
+  </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danh sách Video — Video Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <style>
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+      flex-wrap: wrap;
+    }
+    .filter-search {
+      flex: 1;
+      min-width: 240px;
+    }
+    .filter-select {
+      width: 180px;
+    }
+    @media (max-width: 768px) {
+      .filter-select {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar"></aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+      <!-- Topbar -->
+      <header class="topbar"></header>
+
+      <!-- Nội dung trang -->
+      <main class="content">
+        <div class="page-header">
+          <h1 class="page-title">Danh sách Video</h1>
+          <a href="video-form.html" class="btn btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>Thêm video</span>
+          </a>
+        </div>
+
+        <!-- Bộ lọc và tìm kiếm -->
+        <div class="filter-bar">
+          <div class="filter-search">
+            <input type="text" id="searchInput" class="form-control" placeholder="Tìm theo tiêu đề video...">
+          </div>
+          <div class="filter-select">
+            <select id="categoryFilter" class="form-control">
+              <option value="">Tất cả danh mục</option>
+            </select>
+          </div>
+          <div class="filter-select">
+            <select id="sortFilter" class="form-control">
+              <option value="created_at_desc">Mới nhất</option>
+              <option value="created_at_asc">Cũ nhất</option>
+              <option value="views_count_desc">Nhiều view nhất</option>
+              <option value="views_count_asc">Ít view nhất</option>
+              <option value="title_asc">Tiêu đề (A–Z)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Bảng danh sách -->
+        <div class="table-container">
+          <table class="table">
+            <thead>
+              <tr>
+                <th style="width: 70px;">ID</th>
+                <th style="width: 120px;">Thumbnail</th>
+                <th>Tiêu đề & Danh mục</th>
+                <th style="width: 120px;">Lượt xem</th>
+                <th style="width: 140px; text-align: right;">Hành động</th>
+              </tr>
+            </thead>
+            <tbody id="videoTableBody">
+              <!-- Render động bởi videos.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Phân trang -->
+        <div class="pagination-wrapper" id="paginationWrapper">
+          <div class="pagination-info" id="paginationInfo">Đang tải...</div>
+          <div class="pagination-controls" id="paginationControls"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script type="module" src="assets/js/pages/videos.js"></script>
+</body>
+</html>

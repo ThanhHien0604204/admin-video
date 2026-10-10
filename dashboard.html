@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Video Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar"></aside>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+      <!-- Topbar -->
+      <header class="topbar"></header>
+
+      <!-- Nội dung trang -->
+      <main class="content">
+        <div class="page-header">
+          <h1 class="page-title">Dashboard</h1>
+        </div>
+
+        <!-- 3 Thẻ số liệu tổng quan -->
+        <div class="stats-grid" id="statsGrid">
+          <div class="stat-card" id="cardTotalVideos">
+            <span class="stat-label">Tổng số video</span>
+            <span class="stat-value skeleton" style="height: 34px; width: 60%;"></span>
+          </div>
+          <div class="stat-card" id="cardTotalViews">
+            <span class="stat-label">Tổng lượt xem</span>
+            <span class="stat-value skeleton" style="height: 34px; width: 70%;"></span>
+          </div>
+          <div class="stat-card" id="cardStorageBytes">
+            <span class="stat-label">Dung lượng storage</span>
+            <span class="stat-value skeleton" style="height: 34px; width: 50%;"></span>
+          </div>
+        </div>
+
+        <!-- Biểu đồ cột: Top 10 video -->
+        <div class="chart-card" id="topVideosCard">
+          <div class="chart-header">
+            <h2 class="chart-title">Top 10 video nhiều lượt xem nhất</h2>
+          </div>
+          <div id="topVideosContainer">
+            <div class="chart-wrapper">
+              <canvas id="topVideosChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Biểu đồ line: Lượt xem theo thời gian -->
+        <div class="chart-card" id="viewsSeriesCard">
+          <div class="chart-header">
+            <h2 class="chart-title">Lượt xem theo thời gian</h2>
+            <div class="segmented-control" role="group" aria-label="Khoảng thời gian thống kê">
+              <button type="button" class="segmented-btn active" id="btnGranularityDay">Ngày (30 ngày)</button>
+              <button type="button" class="segmented-btn" id="btnGranularityMonth">Tháng (12 tháng)</button>
+            </div>
+          </div>
+          <div id="viewsSeriesContainer">
+            <div class="chart-wrapper">
+              <canvas id="viewsSeriesChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- CDN Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <script type="module" src="assets/js/pages/dashboard.js"></script>
+</body>
+</html>
