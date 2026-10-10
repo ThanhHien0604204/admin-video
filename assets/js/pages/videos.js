@@ -12,6 +12,7 @@ let currentSearch = '';
 let currentCategory = '';
 let currentSortBy = 'created_at';
 let currentAscending = false;
+let isSingleResult = false;
 
 document.addEventListener('DOMContentLoaded', async () => {
   const profile = await requireAdmin();
@@ -70,7 +71,28 @@ function bindFilterEvents() {
 
   sortFilter?.addEventListener('change', (e) => {
     const val = e.target.value;
-    if (val === 'created_at_desc') {
+    isSingleResult = false;
+
+    if (val === 'all') {
+      currentSortBy = 'created_at';
+      currentAscending = false;
+    } else if (val === 'only_newest') {
+      currentSortBy = 'created_at';
+      currentAscending = false;
+      isSingleResult = true;
+    } else if (val === 'only_least_views') {
+      currentSortBy = 'views_count';
+      currentAscending = true;
+      isSingleResult = true;
+    } else if (val === 'only_most_views') {
+      currentSortBy = 'views_count';
+      currentAscending = false;
+      isSingleResult = true;
+    } else if (val === 'only_oldest') {
+      currentSortBy = 'created_at';
+      currentAscending = true;
+      isSingleResult = true;
+    } else if (val === 'created_at_desc') {
       currentSortBy = 'created_at';
       currentAscending = false;
     } else if (val === 'created_at_asc') {
@@ -112,7 +134,8 @@ async function loadVideoList() {
   try {
     const { rows, total } = await listVideos({
       page: currentPage,
-      pageSize,
+      pageSize: isSingleResult ? 1 : pageSize,
+      limit: isSingleResult ? 1 : null,
       search: currentSearch,
       categoryId: currentCategory,
       sortBy: currentSortBy,
@@ -261,6 +284,14 @@ async function handleDeleteVideo({ id, title, thumbPath, videoPath }) {
 function renderPagination(total) {
   const paginationInfo = document.getElementById('paginationInfo');
   const paginationControls = document.getElementById('paginationControls');
+
+  if (isSingleResult) {
+    paginationInfo.textContent = total > 0
+      ? 'Hiển thị 1 trên tổng 1 video (Kết quả duy nhất)'
+      : 'Không có video phù hợp';
+    paginationControls.innerHTML = '';
+    return;
+  }
 
   const totalPages = Math.ceil(total / pageSize) || 1;
   const from = (currentPage - 1) * pageSize + 1;

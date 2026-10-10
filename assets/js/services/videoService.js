@@ -18,10 +18,11 @@ export async function listVideos({
   search = '',
   categoryId = null,
   sortBy = 'created_at',
-  ascending = false
+  ascending = false,
+  limit = null
 } = {}) {
   const from = (page - 1) * pageSize;
-  const to = from + pageSize - 1;
+  const to = limit ? from + limit - 1 : from + pageSize - 1;
 
   let query = supabase
     .from('videos')
@@ -40,7 +41,10 @@ export async function listVideos({
   const { data, error, count } = await query;
   if (error) throw error;
 
-  return { rows: data || [], total: count || 0 };
+  const actualRows = limit ? (data || []).slice(0, limit) : (data || []);
+  const actualTotal = limit ? actualRows.length : (count || 0);
+
+  return { rows: actualRows, total: actualTotal };
 }
 
 /**

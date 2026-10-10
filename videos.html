@@ -25,8 +25,11 @@
     .filter-select {
       width: 180px;
     }
+    .filter-sort {
+      width: 230px;
+    }
     @media (max-width: 768px) {
-      .filter-select {
+      .filter-select, .filter-sort {
         width: 100%;
       }
     }
@@ -62,13 +65,22 @@
               <option value="">Tất cả danh mục</option>
             </select>
           </div>
-          <div class="filter-select">
-            <select id="sortFilter" class="form-control">
-              <option value="created_at_desc">Mới nhất</option>
-              <option value="created_at_asc">Cũ nhất</option>
-              <option value="views_count_desc">Nhiều view nhất</option>
-              <option value="views_count_asc">Ít view nhất</option>
-              <option value="title_asc">Tiêu đề (A–Z)</option>
+          <div class="filter-select filter-sort">
+            <select id="sortFilter" class="form-control" title="Lọc và sắp xếp video">
+              <option value="all">Tất cả video (Mặc định)</option>
+              <optgroup label="── Lọc 1 video (Top 1) ──">
+                <option value="only_newest">Mới nhất (1 video)</option>
+                <option value="only_least_views">Ít view nhất (1 video)</option>
+                <option value="only_most_views">Nhiều view nhất (1 video)</option>
+                <option value="only_oldest">Cũ nhất (1 video)</option>
+              </optgroup>
+              <optgroup label="── Sắp xếp toàn bộ danh sách ──">
+                <option value="created_at_desc">Sắp xếp: Mới → Cũ</option>
+                <option value="created_at_asc">Sắp xếp: Cũ → Mới</option>
+                <option value="views_count_desc">Sắp xếp: Lượt xem giảm dần</option>
+                <option value="views_count_asc">Sắp xếp: Lượt xem tăng dần</option>
+                <option value="title_asc">Sắp xếp: Tiêu đề (A–Z)</option>
+              </optgroup>
             </select>
           </div>
         </div>
